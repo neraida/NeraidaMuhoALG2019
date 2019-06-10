@@ -8,10 +8,10 @@ Me tabele Hash:
 
 Kompliksiteti: O(1)
 
-1. 100 fjale: 0.08s
-2. 1000 fjale: 0.2475s
-3. 100000 fjale: 0.8944s
-4. 1000000 fjale: 5.38s
+1. 100 fjale: 0.06s
+2. 1000 fjale: 0.2354s
+3. 100000 fjale: 0.8897s
+4. 1000000 fjale: 5.24s
 */
 
 #include <iostream>
@@ -54,7 +54,7 @@ string hiqPikesimin(string s){
 //funksion hash polinomial qe merr fjalen dhe numrin e fjaleve gjithsej, kthen fjalen ne vlere hash dhe merr mbetjen me n
 int funkHash(string s, int n){
 	if(n<0)return -1;
-	int g = 25;
+	int g = 28;
 	int h;
 	for(int i=0; i<s.length(); i++){
 		h=g*h+s[i];
