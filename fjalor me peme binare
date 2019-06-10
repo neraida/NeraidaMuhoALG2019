@@ -1,0 +1,120 @@
+/*
+Te shkruhet nje program qe lexon nje skedar text me madhesi te konsiderueshme dhe shfaq vetem njehere te gjitha
+fjalet e vecante qe shfaqen ne te. Gjate leximit te skedarit, programi duhet te krijoje nje fjalor me te gjitha fjalet qe
+jane shfaqur ne skedar. Sa here qe shfaqet nje fjale e re, dmth qe nuk ndodhet ne fjalor, programi duhet ta shtoje ate
+ne fjalor.
+
+ME PEME BINARE:
+
+KOMPLEKSITETI: O(log n)
+
+1. 100 fjale:
+2. 1000 fjale:
+3. 100000 fjale:
+4. 1000000 fjale:
+*/
+
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+//deklarimi
+typedef struct peme{
+	string fjala;
+	struct peme* djathtas;
+	struct peme* majtas;
+};
+
+//kontrolloj nqs fjala gjendet me pare ne peme me rekursion
+bool alreadyExist(peme*rrenje, string s){
+	if(rrenje==NULL)return false;
+	if(rrenje->fjala==s)return true;
+	
+	bool a=alreadyExist(rrenje->majtas,s);
+	if(a)return true;
+	
+	bool b=alreadyExist(rrenje->djathtas,s);
+	return b;
+}
+
+//funksion qe deklaron elementin e ri dhe e shton ne peme
+peme* shto(peme*rrenje, string s){
+	peme*p;
+	p=new peme;
+    p->fjala=s;
+    p->djathtas=NULL;
+    p->majtas=NULL;
+
+    if(rrenje==NULL)return p;
+    
+    peme*prind = NULL;
+    peme*current = rrenje;
+    while(current!=NULL){
+    	prind=current;
+	//kontrollojme nese elementi ndodhet ne te majte apo ne te djathte te cdo elementi per te gjetur ku do vendoset
+    	if(current->fjala<s)current=current->djathtas;
+    	else{
+    		current=current->majtas;
+		}
+	}
+		if(prind->fjala<s){
+			prind->djathtas=p;
+		}
+		else{
+			prind->majtas=p;
+		}
+    return rrenje;
+}
+
+//heqim shenjat e pikesimit dhe bejme fjalet lowercase ne menyre qe mos te perseriten ne forma te ndryshme
+string hiqPikesimin(string s){
+	int len=s.size();
+	for(int i=0; i<len; i++){
+        s[i]= (tolower(s[i]));
+        if (ispunct(s[i]))
+        {
+            s.erase(i--, 1);
+            len = s.size();
+        }
+    }
+    return s;
+}
+
+//funksion per te printuar pemen ne menyre nderrendore
+void printo(peme*rrenje){
+	if(rrenje==NULL)return;
+	printo(rrenje->majtas);
+	cout<<rrenje->fjala<<endl;
+	printo(rrenje->djathtas);
+}
+
+int main() {
+	cout<<"Programi skedar-peme binare"<<endl;
+	cout<<"Jep emrin e skedarit dhe vendos .txt pas tij"<<endl;
+	
+	//deklaroj skedarin dhe marr emrin e skedarit input nga perdoruesi
+	string fileName, fjala;
+	cin>>fileName;
+	ifstream input;
+	input.open(fileName);
+	
+	//deklaroj pemen ku do ruhen fjalet e fjalorit
+	peme*rrenje = new peme;
+	rrenje = NULL;
+	
+	if(!input.is_open()){
+		cout<<"Gabim ne hapjen e skedarit!"<<endl;
+	}
+	else{
+		while(input>>fjala){//per sa kohe kemi fjale ne skedar
+			fjala=hiqPikesimin(fjala); //pastrojme fjalen
+			if(!alreadyExist(rrenje,fjala)){ //nqs nuk gjendej me pare ne peme
+				rrenje=shto(rrenje,fjala); //e shtojme ne peme
+			}
+		}
+	}
+	//printojme pemen
+	printo(rrenje);
+	return 0;
+}
