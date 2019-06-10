@@ -4,9 +4,9 @@ fjalet e vecante qe shfaqen ne te. Gjate leximit te skedarit, programi duhet te 
 jane shfaqur ne skedar. Sa here qe shfaqet nje fjale e re, dmth qe nuk ndodhet ne fjalor, programi duhet ta shtoje ate
 ne fjalor.
 
-ME PEME BINARE:
+Me peme binare:
 
-KOMPLEKSITETI: O(log n)
+Kompleksiteti: O(log n)
 
 1. 100 fjale:
 2. 1000 fjale:
@@ -81,7 +81,7 @@ string hiqPikesimin(string s){
     return s;
 }
 
-//funksion per te printuar pemen ne menyre nderrendore
+//funksion per te printuar pemen ne menyre nder-rendore
 void printo(peme*rrenje){
 	if(rrenje==NULL)return;
 	printo(rrenje->majtas);
@@ -94,10 +94,10 @@ int main() {
 	cout<<"Jep emrin e skedarit dhe vendos .txt pas tij"<<endl;
 	
 	//deklaroj skedarin dhe marr emrin e skedarit input nga perdoruesi
-	string fileName, fjala;
-	cin>>fileName;
+	string emerSkedari, fjala;
+	cin>>emerSkedari;
 	ifstream input;
-	input.open(fileName);
+	input.open(emerSkedari);
 	
 	//deklaroj pemen ku do ruhen fjalet e fjalorit
 	peme*rrenje = new peme;
