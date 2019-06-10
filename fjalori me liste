@@ -1,0 +1,102 @@
+/*
+Te shkruhet nje program qe lexon nje skedar text me madhesi te konsiderueshme dhe shfaq vetem njehere te gjitha
+fjalet e vecante qe shfaqen ne te. Gjate leximit te skedarit, programi duhet te krijoje nje fjalor me te gjitha fjalet qe
+jane shfaqur ne skedar. Sa here qe shfaqet nje fjale e re, dmth qe nuk ndodhet ne fjalor, programi duhet ta shtoje ate
+ne fjalor.
+
+ME LISTE TE LIDHUR NJE DREJTIMORE:
+
+KOMPLEKSITETI: O(1)
+
+1. 100 fjale:
+2. 1000 fjale:
+3. 100000 fjale:
+4. 1000000 fjale:
+*/
+
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+typedef struct list{
+	string fjale;
+	struct list* pas;
+};
+
+//funksion ndihmes qe kontrollon nese fjala eshte vendosur me pare ne liste
+bool alreadyExist(list*head, string s){
+	list*control;
+	control = head;
+	while(control!=NULL){
+		if(control->fjale==s){   //nqs e gjejme
+		return true;
+	}
+		else{
+		control=control->pas;  //ne te kundert vazhdojme me el. tjeter te listes
+	}
+	}
+	return false;   //nese iteracioni perfundon dhe elementi nuk u gjet
+}
+
+//shton fjalen ne koken e listes
+list* shto(list*head, string s){
+	list*tmp;
+	tmp = new list;
+	tmp->fjale=s;
+	tmp->pas=head;
+	head = tmp;
+}
+
+//per te hequr shenjat e pikesimit dhe per te bere fjalet lowercase ne menyre qe mos te perseriten ne forma te ndryshme
+string hiqPikesimin(string s){
+	int len=s.size();
+	for(int i=0; i<len; i++){
+        s[i]= (tolower(s[i]));
+        if (ispunct(s[i]))
+        {
+            s.erase(i--, 1);
+            len = s.size();
+        }
+    }
+    return s;
+}
+
+// per te printuar cdo element ne liste
+void printo(list*head){
+	list*control;
+	control = head;
+	while(control!=NULL){
+		cout<<control->fjale<<endl;
+		control=control->pas;
+	}
+}
+
+int main() {
+	cout<<"Programi skedar-liste"<<endl;
+	cout<<"Jep emrin e skedarit dhe vendos .txt pas emrit te tij"<<endl;
+	
+	string fileName, fjala;
+	cin>>fileName;
+	ifstream input;
+	input.open(fileName);
+	
+	//deklaroj listen ku do te ruhen fjalet e fjalorit
+	list*koka = new list;
+	koka = NULL;
+	
+	if(!input.is_open()){
+		cout<<"Gabim ne hapjen e skedarit!"<<endl;
+	}
+	else{
+		while(input>>fjala){
+			fjala=hiqPikesimin(fjala);//"pastrojme" fjalen
+			if(!alreadyExist(koka,fjala)){//nese fjala nuk gjendet ne liste
+				koka=shto(koka,fjala);//e shtojme ne krye te listes
+			}
+		}
+	}
+	//kur skemi me fjale nga skedari, printojme listen
+	printo(koka);
+	return 0;
+}
