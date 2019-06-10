@@ -1,1 +1,113 @@
+/*
+Te shkruhet nje program qe lexon nje skedar text me madhesi te konsiderueshme dhe shfaq vetem njehere te gjitha
+fjalet e vecante qe shfaqen ne te. Gjate leximit te skedarit, programi duhet te krijoje nje fjalor me te gjitha fjalet qe
+jane shfaqur ne skedar. Sa here qe shfaqet nje fjale e re, dmth qe nuk ndodhet ne fjalor, programi duhet ta shtoje ate
+ne fjalor.
 
+Me tabele Hash:
+
+Kompliksiteti: O(1)
+
+1. 100 fjale: 0.08s
+2. 1000 fjale: 0.2475s
+3. 100000 fjale: 0.8944s
+4. 1000000 fjale: 5.38s
+*/
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+//deklarimi i struktures se listes
+typedef struct list{
+	string fjala;
+	struct list* pas;
+};
+
+//funksioni per shtimin ne koken e listes
+list* shto(list*koka, string s){
+	list*tmp;
+	tmp = new list;
+	tmp->fjala=s;
+	tmp->pas=koka;
+	koka = tmp;
+}
+
+//heqim shenjat e pikesimit dhe bejme fjalet lowercase ne menyre qe mos te perseriten ne forma te ndryshme
+string hiqPikesimin(string s){
+	int len=s.size();
+	for(int i=0; i<len; i++){
+        s[i]= (tolower(s[i]));
+        if (ispunct(s[i]))
+        {
+            s.erase(i--, 1);
+            len = s.size();
+        }
+    }
+    return s;
+}
+
+//funksion hash polinomial qe merr fjalen dhe numrin e fjaleve gjithsej, kthen fjalen ne vlere hash dhe merr mbetjen me n
+int funkHash(string s, int n){
+	if(n<0)return -1;
+	int g = 25;
+	int h;
+	for(int i=0; i<s.length(); i++){
+		h=g*h+s[i];
+	}
+	return h%n;
+}
+
+
+int main() {
+	cout<<"Programi skedar-fjalor Hash"<<endl;
+	cout<<"Jep emrin e skedarit dhe shto .txt pas tij"<<endl;
+	
+	//deklaroj skedarin dhe marr emrin e skedarit input nga perdoruesi
+	string emriSkedarit, item;
+	cin>>emriSkedarit;
+	ifstream input;
+	input.open(emriSkedarit);
+	//deklaroj nje vektor ku do te ruaj fjalet e reja qe do te shfaqen nga skedari. meqe nuk e dime sa fjale individuale do te marrim 
+	//nuk perdorim dot direkt funksionin e hashit ne tabele per cdo fjale
+	vector<string> words;
+	
+	if(!input.is_open()){
+		cout<<"Gabim ne hapjen e skedarit!"<<endl;
+	}
+	else{
+		while(input>>item){//per sa kohe kemi fjale input nga skedari
+			item=hiqPikesimin(item);//"pastrojme fjalen"
+			if(!(find(words.begin(), words.end(), item) != words.end())){ //nese fjala nuk gjendet ne vektor
+				words.push_back(item);//e shtojme ne vektor
+			}
+		}
+		
+		//pasi kemi marre cdo fjale ne skedar dhe e kemi hedhur ne vektor vazhdojme duke deklaruar tabelen hash 
+		//dhe duke therritur funksionin per cdo fjale te ruajtur ne vektor
+		int n=words.size();
+		list* tabelaHash[n];
+		for(int i=0; i<n; i++){
+			tabelaHash[i]=NULL;
+		}
+		int hashed;
+		for(int i=0; i<n; i++){
+			hashed=funkHash(words[i],n);
+			tabelaHash[hashed]=shto(tabelaHash[hashed],words[i]);
+		}
+		
+		//printojme listen me fjalet e ruajtura
+		for(int i=0; i<n; i++){
+		list*l = tabelaHash[i];
+		while(l!=NULL){
+		cout<<l->fjala<<endl;
+		l = l->pas;
+		}
+}
+}
+	return 0;
+}
