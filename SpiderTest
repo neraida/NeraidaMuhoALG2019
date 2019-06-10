@@ -1,0 +1,24 @@
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+public class SpiderTest
+{
+    /**
+     * This is our test. It creates a spider (which creates spider legs) and crawls the web.
+     * 
+     * @param args
+     *            - not used
+     * @throws IOException 
+     */
+    public static void main(String[] args) throws IOException
+    {
+        Spider spider = new Spider();
+        String url = JOptionPane.showInputDialog("Vendos url e faqes"); //"https://sites.google.com/a/fshn.edu.al/fshn/home/bursa-erasmus"
+        String s = JOptionPane.showInputDialog("Vendos nivelin e thellesise");
+        int niveli = new Integer(s).intValue();
+        String direktori = JOptionPane.showInputDialog("Vendos emrin e direktorise");
+        
+        spider.search(url,niveli,direktori);
+    }
+}
