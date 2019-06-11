@@ -13,34 +13,33 @@ KOMPLEKSITETI: O(log n)
 3. 100000 fjale: 2.153s
 4. 1000000 fjale: 18.13s
 */
-
 #include <iostream>
 #include <fstream>
 #include <string>
 using namespace std;
 
-//deklarimi
-typedef struct peme{
+//deklaroj strukturen e pemes se balancuar
+typedef struct pema{
 	string fjala;
-	struct peme* djathtas;
-	struct peme* majtas;
-    int lartesia;
+	struct pema* djathtas;
+	struct pema* majtas;
+	int lartesia;
 };
 
 //kontrolloj nqs fjala gjendet me pare ne peme me rekursion
-bool alreadyExist(peme*rrenje, string s){
-	if(rrenje==NULL)return false;
-	if(rrenje->fjala==s)return true;
+bool ekziston(pema*rrenja, string s){
+	if(rrenja==NULL)return false;
+	if(rrenja->fjala==s)return true;
 	
-	bool a=alreadyExist(rrenje->majtas,s);
+	bool a=ekziston(rrenja->majtas,s);
 	if(a)return true;
 	
-	bool b=alreadyExist(rrenje->djathtas,s);
+	bool b=alreadyExist(rrenja->djathtas,s);
 	return b;
 }
 
 //funksion qe kthen lartesine e elementit ne peme
-int lartesia(peme* p){  
+int lartesia(pema* p){  
     if (p==NULL)return 0;
     return p->lartesia;
 }  
@@ -53,96 +52,92 @@ int max(int a, int b){
 
 
 //rrotullimi djathtas
-peme* rrotulloDjathtas(peme *y){  
-    peme* x = y->majtas;  
-    peme* T2 = x->djathtas;  
+pema* rightRotate(pema *y){  
+    pema* x = y->majtas;  
+    pema* T2 = x->djathtas;  
     
     x->djathtas = y;  
     y->majtas = T2;  
   
     //rifreskoj lartesite (maksimalja nder lartesine e majte dhe te djathte)
-    y->lartesia = max(lartesia(y->majtas), 
-                    lartesia(y->djathtas)) + 1;  
-    x->lartesia = max(lartesia(x->majtas), 
-                    lartesia(x->djathtas)) + 1;  
+    y->lartesia = max(lartesia(y->majtas),lartesia(y->djathtas)) + 1;  
+    x-> lartesia= max(lartesia(x->majtas),lartesia(x->djathtas)) + 1;  
   
     //kthej rrenjen
     return x;  
 }  
   
 //rrotullimi majtas
-peme* rrotulloMajtas(peme* x){  
-    peme* y = x->djathtas;  
-    peme* T2 = y->majtas;  
+pema* rrotulloMajtas(pema* x){  
+    pema* y = x->djathtas;  
+    pema* T2 = y->majtas;  
     
     y->majtas = x;  
     x->djathtas = T2;  
   
     //rifreskoj lartesite (maksimalja nder lartesine e majte dhe te djathte)
-    x->lartesia = max(lartesia(x->majtas),     
-                    lartesia(x->djathtas)) + 1;  
-    y->lartesia = max(lartesia(y->majtas),  
-                    lartesia(y->djathtas)) + 1;  
+    x->lartesia = max(lartesia(x->majtas),lartesia(x->djathtas)) + 1;  
+    y->lartesia = max(lartesia(y->majtas),lartesia(y->djathtas)) + 1;  
   
     //kthej rrenjen 
     return y;  
 }  
   
-//diferenca e lartesise se majte dhe te djathte te elementit
-int getBalance(peme* p){  
+//funksion per te llogaritur diferencen e lartesive te anes se majte dhe te djathte te elementit
+int llogarit(pema* p){  
     if (p == NULL)return 0;  
     return lartesia(p->majtas) - lartesia(p->djathtas);  
 }  
   
-//shtojme el. e ri ne peme
-peme* shto(peme* rrenje, string s){ 
+//funksion per te shtuar elementin e ri ne peme
+pema* shto(pema* rrenja, string s){ 
 
 //deklaroj elementin e ri
-    peme*p = new peme; 
+    pema*p = new pema; 
     p->fjala = s;
     p->majtas = NULL;  
     p->djathtas = NULL;  
     p->lartesia = 1; //lartesia = 1 ne fillim si gjethe
     
     //nqs ska element tjeter kthejme elementin e ri si rrenje te pemes
-    if (rrenje == NULL)return p;  
+    if (rrenja == NULL)return p;  
   
-    if (s < rrenje->fjala){ //caktojme ne cilen ane te pemes duhet te jete elementi
-        rrenje->majtas = shto(rrenje->majtas, s); 
+    if (s < rrenja->fjala){ //caktojme ne cilen ane te pemes duhet te jete elementi
+        rrenja->majtas = shto(rrenja->majtas, s); 
 	}
     else{
-        rrenje->djathtas = shto(rrenje->djathtas, s);  
+        rrenja->djathtas = shto(rrenja->djathtas, s);  
     }
     
-    rrenje->lartesia = 1 + max(lartesia(rrenje->majtas),  
-                        lartesia(rrenje->djathtas));  
+    rrenja->lartesia = 1 + max(lartesia(rrenja->majtas),lartesia(rrenja->djathtas));  
   
     //kontrolloj nqs rrenja eshte e balancuar. nqs jo shoh 4 rastet e mundshme te balancimit te pemes
-    int balance = getBalance(rrenje);  
+    int balanca = llogarit(rrenja);  
   
     //rasti majtas-majtas
-    if (balance > 1 && s < rrenje->majtas->fjala)  
-        return rrotulloDjathtas(rrenje);  
+    if (balanca > 1 && s < rrenja->left->word)  
+        return rrotulloDjathtas(rrenja);  
   
     //rasti djathtas-djathtas
-    if (balance < -1 && s > rrenje->djathtas->fjala)  
-        return rrotulloMajtas(rrenje);  
+    if (balanca < -1 && s > rrenja->djathtas->fjala)  
+        return rrotulloMajtas(rrenja);  
   
     //rasti majtas-djathtas
-    if (balance > 1 && s > rrenje->majtas->fjala){  
-        rrenje->majtas = rrotulloMajtas(rrenje->majtas);  
-        return rrotulloMajtas(rrenje);  
+    if (balanca > 1 && s > rrenja->majtas->fjala){  
+        rrenja->majtas = rrotulloMajtas(rrenja->majtas);  
+        return rrotulloDjathtas(rrenja);  
     }  
   
     //rasti djathtas-majtas
-    if (balance < -1 && s < rrenje->djathtas->fjala){  
-        rrenje->djathtas = rrotulloDjathtas(rrenje->djathtas);  
-        return rrotulloMajtas(rrenje);  
+    if (balanca < -1 && s < rrenja->djathtas->fjala){  
+        rrenja->djathtas = rrotulloDjathtas(rrenja->djathtas);  
+        return rrotulloMajtas(rrenja);  
     }  
   
-    return rrenje;//kthej rrenjen
-}
-//heqim shenjat e pikesimit dhe bejme fjalet lowercase ne menyre qe mos te perseriten ne forma te ndryshme
+    return rrenja;//kthej rrenjen
+}  
+  
+//heqim shenjat e pikesimit dhe bejme fjalet lowercase qe mos te perseriten ne forma te ndryshme
 string hiqPikesimin(string s){
 	int len=s.size();
 	for(int i=0; i<len; i++){
@@ -157,39 +152,39 @@ string hiqPikesimin(string s){
 }
 
 //funksion per te printuar pemen ne menyre nderrendore
-void printo(peme*rrenje){
-	if(rrenje==NULL)return;
-	printo(rrenje->majtas);
-	cout<<rrenje->fjala<<endl;
-	printo(rrenje->djathtas);
+void printo(pema*rrenja){
+	if(rrenja==NULL)return;
+	printo(rrenja->majtas);
+	cout<<rrenja->fjala<<endl;
+	printo(rrenja->djathtas);
 }
 
 int main() {
-	cout<<"Programi skedar-peme binare"<<endl;
-	cout<<"Jep emrin e skedarit dhe vendos .txt pas tij"<<endl;
+	cout<<"Programi skedar-peme e balancuar"<<endl;
+	cout<<"Jep emrin e skedarit me prapashtesen .txt"<<endl;
 	
 	//deklaroj skedarin dhe marr emrin e skedarit input nga perdoruesi
-	string fileName, fjala;
-	cin>>fileName;
+	string emriSkedarit, fjale;
+	cin>>emriSkedarit;
 	ifstream input;
-	input.open(fileName);
+	input.open(emriSkedarit);
 	
 	//deklaroj pemen ku do ruhen fjalet e fjalorit
-	peme*rrenje = new peme;
-	rrenje = NULL;
+	pema*rrenja = new pema;
+	rrenja = NULL;
 	
-	if(!input.is_open()){
+	if(!input.is_open()){ //rasti i gabimit ne hapjen e skedarit
 		cout<<"Gabim ne hapjen e skedarit!"<<endl;
 	}
 	else{
-		while(input>>fjala){//per sa kohe kemi fjale ne skedar
-			fjala=hiqPikesimin(fjala); //pastrojme fjalen
-			if(!alreadyExist(rrenje,fjala)){ //nqs nuk gjendej me pare ne peme
-				rrenje=shto(rrenje,fjala); //e shtojme ne peme
+		while(input>>fjale){
+			fjale=hiqPikesimin(fjale); //pastrojme fjalen
+			if(!ekziston(rrenja,fjale)){ //nqs nuk gjendej me pare ne peme
+				rrenja=shto(rrenja,fjale); //e shtojme ne peme
 			}
 		}
 	}
 	//printojme pemen
-	printo(rrenje);
+	print(rrenja);
 	return 0;
 }
