@@ -34,7 +34,7 @@ bool ekziston(pema*rrenja, string s){
 	bool a=ekziston(rrenja->majtas,s);
 	if(a)return true;
 	
-	bool b=alreadyExist(rrenja->djathtas,s);
+	bool b=ekziston(rrenja->djathtas,s);
 	return b;
 }
 
@@ -52,7 +52,7 @@ int max(int a, int b){
 
 
 //rrotullimi djathtas
-pema* rightRotate(pema *y){  
+pema* rrotulloDjathtas(pema *y){  
     pema* x = y->majtas;  
     pema* T2 = x->djathtas;  
     
@@ -115,7 +115,7 @@ pema* shto(pema* rrenja, string s){
     int balanca = llogarit(rrenja);  
   
     //rasti majtas-majtas
-    if (balanca > 1 && s < rrenja->left->word)  
+    if (balanca > 1 && s < rrenja->majtas->fjala)  
         return rrotulloDjathtas(rrenja);  
   
     //rasti djathtas-djathtas
@@ -185,6 +185,6 @@ int main() {
 		}
 	}
 	//printojme pemen
-	print(rrenja);
+	printo(rrenja);
 	return 0;
 }
