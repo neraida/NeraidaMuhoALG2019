@@ -36,19 +36,20 @@ bool ekziston(pema*rrenja, string s){
 	
 	bool b=ekziston(rrenja->djathtas,s);
 	return b;
-}
+} //1+1+1+1+log n+1+1+log n+1=2logn++6 kompleksiteti o(log n)
+
 
 //funksion qe kthen lartesine e elementit ne peme
 int lartesia(pema* p){  
     if (p==NULL)return 0;
     return p->lartesia;
-}  
+}  //1+1+1 kompleksitei o(1)
 
 
 //funksion ndihmes per te gjetur maksimumin
 int max(int a, int b){  
     return (a > b)? a : b;  
-}  
+}  // kompleksiteti o(1)
 
 
 //rrotullimi djathtas
@@ -65,7 +66,7 @@ pema* rrotulloDjathtas(pema *y){
   
     //kthej rrenjen
     return x;  
-}  
+}  //2+2+2+2+logn+1+logn+1+1=2logn+11 kompleksiteti o(logn) 
   
 //rrotullimi majtas
 pema* rrotulloMajtas(pema* x){  
@@ -81,13 +82,13 @@ pema* rrotulloMajtas(pema* x){
   
     //kthej rrenjen 
     return y;  
-}  
+}  //2+2+2+2+logn+1+logn+1+1=2logn+11 kompleksiteti o(logn) 
   
 //funksion per te llogaritur diferencen e lartesive te anes se majte dhe te djathte te elementit
 int llogarit(pema* p){  
     if (p == NULL)return 0;  
     return lartesia(p->majtas) - lartesia(p->djathtas);  
-}  
+}  //1+1+2logn kompleksiteti o(logn) 
   
 //funksion per te shtuar elementin e ri ne peme
 pema* shto(pema* rrenja, string s){ 
@@ -135,7 +136,7 @@ pema* shto(pema* rrenja, string s){
     }  
   
     return rrenja;//kthej rrenjen
-}  
+}  //2+2+2+2+2+1+1+1+1+1+2logn+1+logn+1+2+logn+2+logn+2+logn+1+logn+2+logn+1+logn=9logn+27 komplesiteti o(logn) 
   
 //heqim shenjat e pikesimit dhe bejme fjalet lowercase qe mos te perseriten ne forma te ndryshme
 string hiqPikesimin(string s){
@@ -149,7 +150,8 @@ string hiqPikesimin(string s){
         }
     }
     return s;
-}
+} //2+n+(n-1)+(n-1)+1+1+1=3n+3 kompleksiteti o(n)
+
 
 //funksion per te printuar pemen ne menyre nderrendore
 void printo(pema*rrenja){
