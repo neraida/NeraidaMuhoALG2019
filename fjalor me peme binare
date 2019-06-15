@@ -36,7 +36,8 @@ bool alreadyExist(peme*rrenje, string s){
 	
 	bool b=alreadyExist(rrenje->djathtas,s);
 	return b;
-}
+} //1+1+1+1+1+logn+1+1+logn+1=2logn+8 kompleksiteti o(logn)
+
 
 //funksion qe deklaron elementin e ri dhe e shton ne peme
 peme* shto(peme*rrenje, string s){
@@ -65,7 +66,8 @@ peme* shto(peme*rrenje, string s){
 			prind->majtas=p;
 		}
     return rrenje;
-}
+}  //1+2+2+2+2+1+1+2+2+n+(n-1)+(n-1)+1+(n-1)+1+1+1+1=3n+17 kompleksiteti o(n)
+
 
 //heqim shenjat e pikesimit dhe bejme fjalet lowercase ne menyre qe mos te perseriten ne forma te ndryshme
 string hiqPikesimin(string s){
@@ -79,7 +81,8 @@ string hiqPikesimin(string s){
         }
     }
     return s;
-}
+} //2+n+(n-1)+(n-1)+1+1+1=3n+3 kompleksiteti o(logn)
+
 
 //funksion per te printuar pemen ne menyre nder-rendore
 void printo(peme*rrenje){
@@ -87,7 +90,8 @@ void printo(peme*rrenje){
 	printo(rrenje->majtas);
 	cout<<rrenje->fjala<<endl;
 	printo(rrenje->djathtas);
-}
+} //1+1+logn+2+logn=2logn+3 kompleksiteti o(logn)
+
 
 int main() {
 	cout<<"Programi skedar-peme binare"<<endl;
