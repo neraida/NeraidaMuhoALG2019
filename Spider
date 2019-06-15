@@ -53,7 +53,8 @@ public class Spider
           this.pagesToVisit.addAll(leg.getLinks());
       }
       System.out.println("\n**Done** Visited " + this.pagesVisited.size() + " web page(s)");
-  }
+  } //n+((n-1)+(n-1)+(n-1)+1+1+1+1+1+1+1+1)(logn+logn)=6nlogn+10logn+n kompleksiteti o(nlogn) 
+
 
 
   /**
@@ -73,5 +74,5 @@ public class Spider
       this.pagesVisited.add(nextUrl);
       
     return nextUrl;
-  }
+  } //1+(n-1)+1+n+1+1=2n+3 kompleksiteti o(n)
 }
