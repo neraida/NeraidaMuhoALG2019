@@ -35,7 +35,7 @@ list* shto(list*koka, string s){
 	tmp->fjala=s;
 	tmp->pas=koka;
 	koka = tmp;
-}
+} //1+1+1+1+1 kompleksiteti o(1)
 
 //heqim shenjat e pikesimit dhe bejme fjalet lowercase ne menyre qe mos te perseriten ne forma te ndryshme
 string hiqPikesimin(string s){
@@ -49,7 +49,7 @@ string hiqPikesimin(string s){
         }
     }
     return s;
-}
+} //2+n+(n-1)+(n-1)+1+1+1=3n+3 kompleksiteti o(n)
 
 //funksion hash polinomial qe merr fjalen dhe numrin e fjaleve gjithsej, kthen fjalen ne vlere hash dhe merr mbetjen me n
 int funkHash(string s, int n){
@@ -60,7 +60,7 @@ int funkHash(string s, int n){
 		h=g*h+s[i];
 	}
 	return h%n;
-}
+} //1+1+2+1+n+(n-1)+1=2n+5 kompleksiteti o(n)
 
 
 int main() {
