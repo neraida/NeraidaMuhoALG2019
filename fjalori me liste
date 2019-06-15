@@ -38,7 +38,8 @@ bool alreadyExist(list*head, string s){
 	}
 	}
 	return false;   //nese iteracioni perfundon dhe elementi nuk u gjet
-}
+} //1+1+n+(n-1)+1+(n-1)=3n+1 kompleksiteti o(n)
+
 
 //shton fjalen ne koken e listes
 list* shto(list*head, string s){
@@ -47,7 +48,7 @@ list* shto(list*head, string s){
 	tmp->fjale=s;
 	tmp->pas=head;
 	head = tmp;
-}
+} //1+1+1+1+1 kompleksiteti o(1)
 
 //per te hequr shenjat e pikesimit dhe per te bere fjalet lowercase ne menyre qe mos te perseriten ne forma te ndryshme
 string hiqPikesimin(string s){
@@ -61,7 +62,8 @@ string hiqPikesimin(string s){
         }
     }
     return s;
-}
+} //2+n+(n-1)+(n-1)+1+1+1=3n+3 kompleksiteti o(n)
+
 
 // per te printuar cdo element ne liste
 void printo(list*head){
@@ -71,7 +73,8 @@ void printo(list*head){
 		cout<<control->fjale<<endl;
 		control=control->pas;
 	}
-}
+} //1+1+n+n-1+n-1=3n kompleksiteti o(n)
+
 
 int main() {
 	cout<<"Programi skedar-liste"<<endl;
